@@ -2,7 +2,20 @@
    https://www.it-notes.wiki/python/requests-python-usage-examples/
    https://pypi.org/project/requests/
 
+2. pip install beautifulsoup4
+   https://pypi.org/project/beautifulsoup4/
+
+dewtools, network
+
+перша стрічка , Headers :
+
+1. accept
+2. user-agent
+
+
+
+
 
 https://www.youtube.com/watch?v=ykjBVT57r68
 
-07 : 14
+35 : 18
