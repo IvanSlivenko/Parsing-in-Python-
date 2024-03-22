@@ -1,0 +1,8 @@
+1. pip install requests
+   https://www.it-notes.wiki/python/requests-python-usage-examples/
+   https://pypi.org/project/requests/
+
+
+https://www.youtube.com/watch?v=ykjBVT57r68
+
+07 : 14
