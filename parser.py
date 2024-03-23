@@ -2,46 +2,43 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-from const import HOST, URL, HEADERS
-
+from const import HOST, URL, HEADERS, PAGINATION
 
 def get_html(url, params=''):
     r = requests.get(url, headers=HEADERS, params=params)
     return r
 
-def get_content(html):
+def get_content(html): # Збираємо контент на одній сторінці
     soup = BeautifulSoup(html, 'html.parser')
     items = soup.findAll('div', class_='sc-182gfyr-0 jmBHNg')
     cards = []
-    count = 0
     for item in items:
-        count += 1
         cards.append(
             {
-
-                'title': item.find('div', class_='be80pr-15 kwXsZB').get_text(),
+                'title': item.find('a', class_='cpshbz-0 eRamNS').get_text(strip=True),
                 'link_produkt': item.find('div', class_='be80pr-15 kwXsZB').find('a').get('href'),
-
-
-                # 'bank_produkt': item.find('span', class_='be80pr-21 dksWIi').get_text(),
-                # 'produkt_name': item.find('a', class_='cpshbz-0 eRamNS').get_text(),
-
+                # 'link_produkt': HOST+item.find('div', class_='be80pr-15 kwXsZB').find('a').get('href'),
+                'brand': item.find('span', class_='be80pr-21 dksWIi').get_text(strip=True),
+                'card_img': item.find('div', class_='be80pr-9 fJFiLL').find('img').get('srcset')
             }
         )
-        print(cards)
-    # print(cards)
+
     return cards
 
-      # testing
+# html = get_html(URL)
+# print(get_content(html.text))
 
-        # curent_item_name = item.find('a', class_='cpshbz-0 eRamNS').get_text()
-        # curent_item_bank = item.find('span',class_='be80pr-21 dksWIi').get_text()
-        # print(f"{count}. Банк {curent_item_bank} - {curent_item_name}")
-    # print(cards)
-    # print(len(cards))
+def parser():
+    pagination = int(PAGINATION.strip())
+    html = get_html(URL)
+    if html.status_code == 200:
+        cards = []
+        for currеnt_page in range(1, pagination+1):
+            print(f"Парсимо сторінку : {currеnt_page}")
+            html = get_html(URL, params={'page': currеnt_page})
+            cards.extend(get_content(html.text))
+        print('Парсинг сторінок завершено')
+    else:
+        print('Error')
 
-
-
-html = get_html(URL)
-get_content(html.text)
-
+parser()
